@@ -1,13 +1,5 @@
-import { db, postsCollection } from "./firebase/index";
-import {
-  collection,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-  onSnapshot,
-} from "firebase/firestore";
 import { useState, useEffect } from "react";
+import { postUtils } from "./firebase/utils";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -23,66 +15,69 @@ function App() {
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(postsCollection, (snapshot) => {
-      const newPosts = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPosts(newPosts);
-    });
-    return () => unsubscribe();
+    let unsubscribe;
+    postUtils
+      .getPosts(setPosts)
+      .then((fn) => (unsubscribe = fn))
+      .catch((error) => console.error(error));
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, []);
 
-  async function addNewPost(title, content) {
-    const newPost = {
-      title,
-      content,
-      postId: "",
-    };
-    try {
-      const docRef = await addDoc(postsCollection, newPost);
-      const postId = docRef.id;
-      await updateDoc(doc(postsCollection, docRef.id), { postId });
-      console.log(`Post with ID ${postId} added successfully.`);
-    } catch (e) {
-      console.error("Error : addPost failed");
-    }
-  }
+  // async function addNewPost(title, content) {
+  //   const newPost = {
+  //     title,
+  //     content,
+  //     postId: "",
+  //   };
+  //   try {
+  //     const docRef = await addDoc(postsCollection, newPost);
+  //     const postId = docRef.id;
+  //     await updateDoc(doc(postsCollection, docRef.id), { postId });
+  //     console.log(`Post with ID ${postId} added successfully.`);
+  //   } catch (e) {
+  //     console.error("Error : addPost failed");
+  //   }
+  // }
 
-  async function deletePost(id) {
-    try {
-      await deleteDoc(doc(postsCollection, id));
-      console.log("Post with ID " + id + " deleted successfully");
-    } catch (e) {
-      console.error("Error : deletePost failed", e);
-    }
-  }
+  // async function deletePost(id) {
+  //   try {
+  //     await deleteDoc(doc(postsCollection, id));
+  //     console.log("Post with ID " + id + " deleted successfully");
+  //   } catch (e) {
+  //     console.error("Error : deletePost failed", e);
+  //   }
+  // }
 
-  async function updatePost(id) {
-    const postRef = doc(postsCollection, id);
-    try {
-      await updateDoc(postRef, {
-        title: "updated title",
-        content: "updated content",
-      });
-      console.log("Post with ID " + id + " updated successfully");
-    } catch (e) {
-      console.error("Error: updatePost failed", e);
-    }
-  }
+  // async function updatePost(id) {
+  //   const postRef = doc(postsCollection, id);
+  //   try {
+  //     await updateDoc(postRef, {
+  //       title: "updated title",
+  //       content: "updated content",
+  //     });
+  //     console.log("Post with ID " + id + " updated successfully");
+  //   } catch (e) {
+  //     console.error("Error: updatePost failed", e);
+  //   }
+  // }
 
   const handleAddButtonClick = async (title, content) => {
-    await addNewPost(title, content);
+    await postUtils.addPost(title, content);
     console.log("post added");
   };
 
   const handleDeleteButtonClick = async (postId) => {
-    await deletePost(postId);
+    await postUtils.deletePost(postId);
     console.log("post deleted");
   };
 
   const handleUpdateButtonClick = async (postId) => {
-    await updatePost(postId);
+    await postUtils.updatePost(postId);
     console.log("post updated");
   };
 
