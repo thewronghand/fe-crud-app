@@ -8,8 +8,9 @@ import {
 } from "firebase/firestore";
 
 const postUtils = {
-  addPost: async function (title, content) {
+  addPost: async function (username, title, content) {
     const newPost = {
+      username,
       title,
       content,
       postId: "",
