@@ -14,6 +14,8 @@ const postUtils = {
       title,
       content,
       postId: "",
+      createdAt: new Date().toString(),
+      updatedAt: null,
     };
     try {
       const docRef = await addDoc(postsCollection, newPost);
@@ -42,6 +44,7 @@ const postUtils = {
       await updateDoc(postRef, {
         title: "updated title",
         content: "updated content",
+        updatedAt: new Date().toString(),
       });
       console.log("Post with ID " + id + " updated successfully");
     } catch (e) {

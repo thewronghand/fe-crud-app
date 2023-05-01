@@ -82,7 +82,9 @@ function App() {
         {postList.map((post) => (
           <div key={post.id}>
             <h2>{post.title}</h2>
-            <span>{`username : ${post.username}`}</span>
+            <div>{`username : ${post.username}`}</div>
+            <div>created : {post.createdAt}</div>
+            {post.updatedAt ? <div>updated : {post.updatedAt}</div> : null}
             <p>{post.content}</p>
             <button onClick={() => handleDeleteButtonClick(post.id)}>
               delete
