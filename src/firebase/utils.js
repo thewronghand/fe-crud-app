@@ -1,11 +1,16 @@
 import { postsCollection } from "./index";
 import {
+  query,
+  orderBy,
   addDoc,
   deleteDoc,
   updateDoc,
   doc,
   onSnapshot,
 } from "firebase/firestore";
+import { getRandomColorScheme } from "../utils/constants/miscellaneous";
+
+const postsQuery = query(postsCollection, orderBy("createdAt", "desc"));
 
 const postUtils = {
   addPost: async function (username, title, content) {
@@ -14,8 +19,9 @@ const postUtils = {
       title,
       content,
       postId: "",
-      createdAt: new Date().toString(),
+      createdAt: new Date().toLocaleString(),
       updatedAt: null,
+      colorScheme: getRandomColorScheme(),
     };
     try {
       const docRef = await addDoc(postsCollection, newPost);
@@ -28,7 +34,7 @@ const postUtils = {
   },
 
   getPosts: async function (updater) {
-    const unsubscribe = onSnapshot(postsCollection, (snapshot) => {
+    const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
       const newPosts = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -38,13 +44,14 @@ const postUtils = {
     return unsubscribe;
   },
 
-  updatePost: async function (id) {
+  updatePost: async function (id, title, username, content) {
     const postRef = doc(postsCollection, id);
     try {
       await updateDoc(postRef, {
-        title: "updated title",
-        content: "updated content",
-        updatedAt: new Date().toString(),
+        title: title,
+        username: username,
+        content: content,
+        updatedAt: new Date().toLocaleString(),
       });
       console.log("Post with ID " + id + " updated successfully");
     } catch (e) {
