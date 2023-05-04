@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, orderBy } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,4 +20,7 @@ const db = getFirestore(app);
 const postsCollection = collection(db, "posts");
 const tagsCollection = collection(db, "tags");
 
+const auth = getAuth(app);
+
 export { db, postsCollection, tagsCollection };
+export default auth;
