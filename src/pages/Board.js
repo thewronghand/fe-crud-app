@@ -86,9 +86,9 @@ function Board() {
   }, []);
 
   const splitPostsIntoColumns = (posts) => {
-    const columns = [[], [], []];
+    const columns = [[], [], [], [], []];
     for (let i = 0; i < posts.length; i++) {
-      const columnIndex = i % 3;
+      const columnIndex = i % 5;
       columns[columnIndex].push(posts[i]);
     }
     return columns;
