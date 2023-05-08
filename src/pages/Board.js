@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { postListState } from "../recoil/postList/postListAtom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { postUtils } from "../firebase/utils";
 import Post from "../components/Post";
 import InputForm from "../components/InputForm";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { userState } from "../recoil/login/loginAtom";
 
 const PostListContainer = styled.main`
   width: 100%;
@@ -68,6 +69,8 @@ function Board() {
     setInputFormOpen(!inputFormOpen);
   };
 
+  const user = useRecoilValue(userState);
+
   useEffect(() => {
     let unsubscribe;
     postUtils
@@ -95,15 +98,20 @@ function Board() {
 
   return (
     <PostListContainer>
-      <InputFormButton
-        className="inputForm-open_button"
-        onClick={openInputFormHandler}
-      >
-        <FontAwesomeIcon icon={faPaperPlane} />
-      </InputFormButton>
-      <ShadowBox>
-        <FontAwesomeIcon icon={faPaperPlane} />
-      </ShadowBox>
+      {user ? (
+        <div>
+          <InputFormButton
+            className="inputForm-open_button"
+            onClick={openInputFormHandler}
+          >
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </InputFormButton>
+          <ShadowBox>
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </ShadowBox>
+        </div>
+      ) : null}
+
       {inputFormOpen ? (
         <InputForm modalCloseHandler={openInputFormHandler} />
       ) : null}
