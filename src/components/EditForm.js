@@ -45,7 +45,7 @@ export const ModalView = styled.div`
     align-items: center;
     > .input_title_wrapper {
       display: flex;
-      height: 40px;
+      height: 87px;
       align-items: center;
       > .input_title {
         border: 1px solid black;
@@ -107,9 +107,6 @@ function EditForm({ modalCloseHandler, postDataProp }) {
   const [content, setContent] = useState(
     postDataProp ? postDataProp.content : ""
   );
-  const [username, setUsername] = useState(
-    postDataProp ? postDataProp.username : ""
-  );
 
   const handleTitleInputChange = (e) => {
     setTitle(e.target.value);
@@ -117,13 +114,10 @@ function EditForm({ modalCloseHandler, postDataProp }) {
   const handleContentInputChange = (e) => {
     setContent(e.target.value);
   };
-  const handleUsernameInputChange = (e) => {
-    setUsername(e.target.value);
-  };
 
   const handleUpdateButtonClick = async (postId) => {
     modalCloseHandler();
-    await postUtils.updatePost(postId, title, username, content);
+    await postUtils.updatePost(postId, title, content);
     console.log("post updated");
   };
 
@@ -142,16 +136,6 @@ function EditForm({ modalCloseHandler, postDataProp }) {
               {postDataProp ? postDataProp.title : null}
             </textarea>
           </div>
-          <div className="input_username_wrapper">
-            <textarea
-              className="input_username"
-              placeholder="your username here"
-              onChange={handleUsernameInputChange}
-              rows="1"
-            >
-              {postDataProp ? postDataProp.username : null}
-            </textarea>
-          </div>
           <div className="input_content_wrapper">
             <textarea
               className="input_content"
@@ -166,7 +150,7 @@ function EditForm({ modalCloseHandler, postDataProp }) {
         <button
           className="update_button"
           onClick={() =>
-            handleUpdateButtonClick(postDataProp.id, username, title, content)
+            handleUpdateButtonClick(postDataProp.id, title, content)
           }
         >
           update

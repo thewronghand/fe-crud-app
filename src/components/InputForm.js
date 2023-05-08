@@ -1,6 +1,9 @@
 import { React, useState } from "react";
 import styled from "styled-components";
 import { postUtils } from "../firebase/utils";
+import { useRecoilValue } from "recoil";
+import { userState } from "../recoil/login/loginAtom";
+import auth from "../firebase/index";
 
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -45,20 +48,9 @@ export const ModalView = styled.div`
     align-items: center;
     > .input_title_wrapper {
       display: flex;
-      height: 40px;
+      height: 87px;
       align-items: center;
       > .input_title {
-        border: 1px solid black;
-        border-radius: 5px;
-        width: 200px;
-      }
-    }
-    > .input_username_wrapper {
-      display: flex;
-      height: 40px;
-      align-items: center;
-      margin-bottom: 7px;
-      > .input_username {
         border: 1px solid black;
         border-radius: 5px;
         width: 200px;
@@ -105,7 +97,7 @@ export const ModalView = styled.div`
 function InputForm({ modalCloseHandler }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [username, setUsername] = useState("");
+  const user = useRecoilValue(userState);
 
   const handleTitleInputChange = (e) => {
     setTitle(e.target.value);
@@ -113,13 +105,10 @@ function InputForm({ modalCloseHandler }) {
   const handleContentInputChange = (e) => {
     setContent(e.target.value);
   };
-  const handleUsernameInputChange = (e) => {
-    setUsername(e.target.value);
-  };
 
-  const handleSubmitButtonClick = async (username, title, content) => {
+  const handleSubmitButtonClick = async (user, title, content) => {
     modalCloseHandler();
-    await postUtils.addPost(username, title, content);
+    await postUtils.addPost(user, title, content);
     console.log("post added");
   };
 
@@ -135,13 +124,6 @@ function InputForm({ modalCloseHandler }) {
               onChange={handleTitleInputChange}
             ></input>
           </div>
-          <div className="input_username_wrapper">
-            <input
-              className="input_username"
-              placeholder="your username here"
-              onChange={handleUsernameInputChange}
-            ></input>
-          </div>
           <div className="input_content_wrapper">
             <textarea
               className="input_content"
@@ -153,7 +135,7 @@ function InputForm({ modalCloseHandler }) {
         </div>
         <button
           className="submit_button"
-          onClick={() => handleSubmitButtonClick(username, title, content)}
+          onClick={() => handleSubmitButtonClick(user, title, content)}
         >
           submit
         </button>

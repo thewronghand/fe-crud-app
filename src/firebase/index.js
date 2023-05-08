@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, orderBy } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,5 +22,7 @@ const tagsCollection = collection(db, "tags");
 
 const auth = getAuth(app);
 
-export { db, postsCollection, tagsCollection };
+const provider = new GoogleAuthProvider();
+
+export { db, postsCollection, tagsCollection, provider };
 export default auth;

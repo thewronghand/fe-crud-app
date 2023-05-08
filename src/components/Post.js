@@ -15,6 +15,9 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import EditForm from "./EditForm";
 
+import { useRecoilValue } from "recoil";
+import { userState } from "../recoil/login/loginAtom";
+
 const MenuPopover = styled(Popover)`
   background-color: ${(props) => (props.bgColor ? props.bgColor : "white")};
   --bs-popover-bg: ${(props) => (props.bgColor ? props.bgColor : "white")};
@@ -82,6 +85,10 @@ const PostContainer = styled.li`
       border: 1px solid ${(props) => (props.color ? props.color : "black")};
       border-radius: 70%;
       margin: 5px;
+      > img {
+        width: 40px;
+        border-radius: 70%;
+      }
     }
     > .username {
       display: flex;
@@ -129,9 +136,52 @@ const MoreButton = styled.button`
   }
 `;
 
+const PostInfoWrapper = styled.div`
+  display: flex;
+  border-top: 1px solid black;
+  height: 50px;
+  align-items: center;
+  > .profile_picture_no_user {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid ${(props) => (props.color ? props.color : "black")};
+    border-radius: 70%;
+    margin: 5px;
+    order: 1;
+    > img {
+      width: 40px;
+      border-radius: 70%;
+    }
+  }
+  > .username_no_user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    margin: auto;
+  }
+`;
+
+function PostInfoNoOverlay({ postData }) {
+  return (
+    <PostInfoWrapper>
+      <div className="profile_picture_no_user">
+        <img src={postData.user.photoURL} alt={postData.user.displayName} />
+      </div>
+      <div className="username_no_user">{postData.user.displayName}</div>
+    </PostInfoWrapper>
+  );
+}
+
 function Post({ postData }) {
   const [isMoreButtonClicked, setIsMoreButtonClicked] = useState(false);
   const [editFormOpen, setEditFormOpen] = useState(false);
+
+  const user = useRecoilValue(userState);
 
   const HandleMoreButtonClick = () => {
     setIsMoreButtonClicked(!isMoreButtonClicked);
@@ -193,6 +243,7 @@ function Post({ postData }) {
             !isMoreButtonClicked ? (
               <div>
                 {postData.content.slice(0, 210) + "... "}
+
                 <MoreButton
                   color={postData.colorScheme.color}
                   bgColor={postData.colorScheme.background}
@@ -220,23 +271,34 @@ function Post({ postData }) {
           )}
         </div>
       </div>
-      <div className="post_info">
-        <div className="profile_picture">
-          <FontAwesomeIcon icon={faUser} />
-        </div>
-        <div className="username">{postData.username}</div>
+      {user ? (
+        user.uid === postData.user.uid ? (
+          <div className="post_info">
+            <div className="profile_picture">
+              <img
+                src={postData.user.photoURL}
+                alt={postData.user.displayName}
+              />
+            </div>
+            <div className="username">{postData.user.displayName}</div>
 
-        <OverlayTrigger
-          trigger="click"
-          placement="bottom"
-          overlay={popover}
-          rootClose
-        >
-          <div className="popover_toggle">
-            <FontAwesomeIcon icon={faBars} />
+            <OverlayTrigger
+              trigger="click"
+              placement="bottom"
+              overlay={popover}
+              rootClose
+            >
+              <div className="popover_toggle">
+                <FontAwesomeIcon icon={faBars} />
+              </div>
+            </OverlayTrigger>
           </div>
-        </OverlayTrigger>
-      </div>
+        ) : (
+          <PostInfoNoOverlay postData={postData} />
+        )
+      ) : (
+        <PostInfoNoOverlay postData={postData} />
+      )}
     </PostContainer>
   );
 }

@@ -5,7 +5,6 @@ import Board from "./pages/Board";
 import Nav from "./components/Nav";
 
 import auth from "./firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRecoilState } from "recoil";
 import { userState } from "./recoil/login/loginAtom";
 import { useEffect } from "react";

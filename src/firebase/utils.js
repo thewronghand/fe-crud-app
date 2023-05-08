@@ -13,9 +13,9 @@ import { getRandomColorScheme } from "../utils/constants/miscellaneous";
 const postsQuery = query(postsCollection, orderBy("createdAt", "desc"));
 
 const postUtils = {
-  addPost: async function (username, title, content) {
+  addPost: async function (user, title, content) {
     const newPost = {
-      username,
+      user,
       title,
       content,
       postId: "",
@@ -30,6 +30,7 @@ const postUtils = {
       console.log(`Post with ID ${postId} added successfully.`);
     } catch (e) {
       console.error("Error : addPost failed");
+      console.log(e);
     }
   },
 
@@ -44,12 +45,11 @@ const postUtils = {
     return unsubscribe;
   },
 
-  updatePost: async function (id, title, username, content) {
+  updatePost: async function (id, title, content) {
     const postRef = doc(postsCollection, id);
     try {
       await updateDoc(postRef, {
         title: title,
-        username: username,
         content: content,
         updatedAt: new Date().toLocaleString(),
       });
