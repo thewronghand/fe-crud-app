@@ -86,7 +86,7 @@ function Sign() {
       {user ? (
         <UserMenu>
           <img src={user.photoURL} alt={user.displayName} />
-          <div className="username">Welcome, {user.displayName}</div>
+          <div className="username">{user.displayName}</div>
           <SignOutButton onClick={handleSignOut}>sign out</SignOutButton>
         </UserMenu>
       ) : (
