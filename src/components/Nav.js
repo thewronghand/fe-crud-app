@@ -31,7 +31,6 @@ const NavBar = styled.nav`
 function Nav() {
   return (
     <NavBar>
-      <div> testTestTest</div>
       <img className="logo_image" src="logo_with_title.png" alt="nav_logo" />
       <div className="user_menu">
         <Sign />
