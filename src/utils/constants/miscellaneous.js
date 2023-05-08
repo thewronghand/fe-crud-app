@@ -19,11 +19,6 @@ const colorSchemes = [
     alt: "#DE3E7D",
   },
   {
-    background: "#F57D7D",
-    color: "black",
-    alt: "white",
-  },
-  {
     background: "white",
     color: "black",
     alt: "#DE3E7D",
