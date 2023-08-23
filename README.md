@@ -1,70 +1,19 @@
-# Getting Started with Create React App
+# 게시판 어플리케이션 Peony
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+코드스테이츠 미니 해커톤 과제물로 구현한, 기본적인 CRUD 기능을 갖춘 게시판 앱입니다.
 
-## Available Scripts
+## 새로 도입한 스택 / 구현한 것
 
-In the project directory, you can run:
+**Firebase** 를 채용했습니다.
+- Firestore를 이용한 게시물 DB 구현
+- Firebase Auth를 이용한 구글 OAuth 로그인 구현
+- Firebase Hosting을 통한 애플리케이션 배포
+- Firebase 사용을 위한 초기 보일러플레이트 세팅 학습
 
-### `npm start`
+**Recoil**을 채용했습니다.
+- Redux와 Recoil 차이점 학습
+- 프로젝트 기간 제한 (1주) 및 프로젝트 규모를 고려하여 Redux 대신 Recoil 채용
+- 복잡한 보일러플레이트 세팅이 필요 없는, 간결하고 직관적인 상태 관리 로직 적용
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Pinterest식 레이아웃**을 구현했습니다.
+- 5개의 column에 게시물이 작성 순으로 렌더링되고, 게시물의 height에 따라 불규칙하게 정렬되도록 구현
